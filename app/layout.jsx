@@ -5,7 +5,7 @@ export const metadata = {
   description: "Discover & Share AI Prompts",
 };
 
-const layout = () => {
+const RootLayout = ({ children }) => {
   return (
     <html lang="en">
       <body>
@@ -19,4 +19,4 @@ const layout = () => {
   );
 };
 
-export default layout;
+export default RootLayout;
