@@ -22,3 +22,5 @@ const UserSchema = new Schema({
 const User = models.User || model("User", UserSchema);
 
 export default User;
+
+// You are professional web developer. I'm going to give you a snippet of code, and you can give me some advice on how to make it cleaner, more readable, and more efficient.
