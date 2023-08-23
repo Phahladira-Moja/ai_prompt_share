@@ -7,13 +7,19 @@ import PromptCard from "./PromptCard";
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
     <div className="mt-16 prompt_layout">
-      {data.map((post) => (
-        <PromptCard
-          key={post._id}
-          post={post}
-          handleTagClick={handleTagClick}
-        />
-      ))}
+      {data.length === 0 ? (
+        <div className="flex flex-row">
+          <p className="desc text-center">No Prompts Available</p>
+        </div>
+      ) : (
+        data.map((post) => (
+          <PromptCard
+            key={post._id}
+            post={post}
+            handleTagClick={handleTagClick}
+          />
+        ))
+      )}
     </div>
   );
 };
@@ -22,10 +28,40 @@ const Feed = () => {
   const [searchText, setSearchText] = useState("");
   const [posts, setPosts] = useState([]);
 
-  const handleSearchChange = (e) => {};
+  const debounce = (func, delay) => {
+    let timer;
+    return function (...args) {
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
+    };
+  };
+
+  const handleSearch = async (value) => {
+    try {
+      const response = await fetch("/api/prompt/search", {
+        method: "POST",
+        body: JSON.stringify({
+          searchText: value,
+        }),
+      });
+
+      const data = await response.json();
+      setPosts(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const delayedSearch = debounce(handleSearch, 1500);
+
+  const handleSearchChange = (e) => {
+    setSearchText(e.currentTarget.value);
+    delayedSearch(e.currentTarget.value);
+  };
 
   useEffect(() => {
     const fetchPosts = async () => {
+      setSearchText("");
       const response = await fetch("/api/prompt");
       const data = await response.json();
 
@@ -48,7 +84,13 @@ const Feed = () => {
         />
       </form>
 
-      <PromptCardList data={posts} handleTagClick={() => {}} />
+      <PromptCardList
+        data={posts}
+        handleTagClick={(value) => {
+          setSearchText(value);
+          handleSearch(value);
+        }}
+      />
     </section>
   );
 };
