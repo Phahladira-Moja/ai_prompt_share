@@ -43,9 +43,11 @@ const Profiles = ({ params }) => {
       const data = await response.json();
       setPosts(data);
     };
-    if (session?.user.id) fetchPosts();
-    // console.log(router.id);
-  }, []);
+
+    if (session?.user.id) {
+      fetchPosts();
+    }
+  }, [session?.user]);
 
   return (
     <Profile
