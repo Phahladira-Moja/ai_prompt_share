@@ -5,7 +5,6 @@ import { connectToDB } from "@utils/database";
 
 const handler = NextAuth({
   providers: [
-    // NB when adding this we need to add this redirect route to google <http://localhost:3000/api/auth/callback/google>
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,

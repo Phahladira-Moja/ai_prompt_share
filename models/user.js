@@ -8,10 +8,10 @@ const UserSchema = new Schema({
   },
   username: {
     type: String,
-    unique: [true, "Username already exists!"],
+    required: [true, "Username is required!"],
     match: [
-      /^(?=.{8,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
-      "Username invalid, it should contain 8-20 alphanumeric letters and be unique!",
+      /^(?=.{2,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/,
+      "Username invalid, it should contain 2-20 alphanumeric letters and be unique!",
     ],
   },
   image: {
@@ -22,5 +22,3 @@ const UserSchema = new Schema({
 const User = models.User || model("User", UserSchema);
 
 export default User;
-
-// You are professional web developer. I'm going to give you a snippet of code, and you can give me some advice on how to make it cleaner, more readable, and more efficient.
